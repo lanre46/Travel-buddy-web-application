@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation</title>
+
+   <style>
+         body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f7ff; /* Your preferred background color */
+        padding: 20px;
+    }
+
+        header {
+            background-color: #000;
+            padding: 10px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #000;
+            padding: 10px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #333;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 20px 0 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p#result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+        <nav>
+            <a href="{{ url_for('runIndex') }}">Home</a>
+            <a href="{{ url_for('query') }}">Query Trips</a>
+            <a href="{{ url_for('proposed_trips') }}">Propose Trip</a>
+            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Trips</a> <!-- User Proposed Trips Link -->
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('past_trips') }}">Past Trips</a>
+            <a href="{{ url_for('present_trips') }}">Present Trips</a>
+            <a id="geolocation-link" href="{{ url_for('geolocation') }}">Geolocation</a>
+            <a href="/">Logout</a> <!-- Logout Link -->
+        </nav>
+    </header>
+
+
+<h1>Geolocation For any location</h1>
+
+<label for="cityInput">Enter City:</label>
+<input type="text" id="cityInput" placeholder="E.g., New York">
+<button onclick="getGeolocation()">Get Geolocation</button>
+
+<p id="result"></p>
+
+<script>
+function getGeolocation() {
+    const cityInput = document.getElementById('cityInput');
+    const resultElement = document.getElementById('result');
+
+    const city = cityInput.value.trim();
+    if (!city) {
+        alert('Please enter a city name.');
+        return;
+    }
+
+    fetch(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${city}&limit=1`, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+            'X-RapidAPI-Key': '3a5bb12322mshbd9700514a808d9p122d3bjsn60e262b1b9e1',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.data && data.data.length > 0) {
+            const { latitude, longitude } = data.data[0];
+            resultElement.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        } else {
+            resultElement.textContent = 'No results found.';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching geolocation:', error);
+        resultElement.textContent = 'An error occurred.';
+    });
+}
+</script>
+
+</body>
+</html>

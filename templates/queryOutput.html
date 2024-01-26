@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Details</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007BFF;
+            text-align: center;
+        }
+
+        div {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #007BFF;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome, {{ username }}!</h1>
+    {% if random_id %}
+        <p>Your user ID: {{ random_id }}</p>
+    {% endif %}
+
+    <h1>Weather timeline for {{ location }} from {{ start_date }} to {{ end_date }}</h1>
+    {% for day in weather_data %}
+        <div>
+            <h3>Date: {{ day.date }}</h3>
+            <p>Average Temperature: {{ day.avg_temp }}°C</p>
+            <p>Condition: {{ day.condition }}</p>
+            <p>Max Temperature: {{ day.max_temp }}°C</p>
+            <p>Min Temperature: {{ day.min_temp }}°C</p>
+        </div>
+    {% endfor %}
+</body>
+
+</html>

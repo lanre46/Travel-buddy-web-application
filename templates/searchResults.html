@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- head content  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+
+  <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+        }
+
+        form {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+ <header>
+        <nav>
+            <a href="{{ url_for('runIndex') }}">Home</a>
+            <a href="{{ url_for('query') }}">Query Trips</a>
+            <a href="{{ url_for('proposed_trips') }}">Propose Trip</a>
+            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Trips</a> <!-- User Proposed Trips Link -->
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('past_trips') }}">Past Trips</a>
+            <a href="{{ url_for('present_trips') }}">Present Trips</a>
+            <a id="geolocation-link" href="{{ url_for('geolocation') }}">Geolocation</a>
+            <a href="/">Logout</a> <!-- Logout Link -->
+        </nav>
+    </header>
+
+    <h2>Search Results for {{ search_location }}</h2>
+
+    {% if trips %}
+        <ul>
+            {% for trip in trips %}
+                <li>
+                    <strong>User ID:</strong> {{ trip.user_id }} |
+                    <strong>Trip ID:</strong> {{ trip.trip_id }} |
+                    <strong>Location:</strong> {{ trip.location }} |
+                    <strong>Date:</strong> {{ trip.date }} |
+                    <strong>Weather:</strong> {{ trip.weather }} |
+                   <strong>Interests:</strong> {{ trip.interest_count }}
+                     <form action="/expressInterest" method="post">
+                        <input type="hidden" name="trip_id" value="{{ trip.trip_id }}">
+                        <input type="hidden" name="expressing_user_id" value="{{ trip.user_id }}">
+                        <button type="submit">Express Interest</button>
+                     </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No trips found for the specified location.</p>
+    {% endif %}
+
+</body>
+
+</html>

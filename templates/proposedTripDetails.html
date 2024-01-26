@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposed Trip Details</title>
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7ff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        strong {
+            color: #007bff;
+        }
+
+        .weather-details {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+
+        .weather-details p {
+            margin: 5px 0;
+        }
+         .weather-details p:hover {
+        background-color: #f0f0f0;
+       }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label,
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="{{ url_for('runIndex') }}">Home</a>
+            <a href="{{ url_for('query') }}">Query Trips</a>
+            <a href="{{ url_for('proposed_trips') }}">Propose Trip</a>
+            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Trips</a>
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('past_trips') }}">Past Trips</a>
+            <a href="{{ url_for('present_trips') }}">Present Trips</a>
+            <a id="geolocation-link" href="{{ url_for('geolocation') }}">Geolocation</a>
+            <a href="/">Logout</a>
+        </nav>
+    </header>
+
+    <h2>Proposed Trip Details</h2>
+    <p><strong>User ID:</strong> {{ proposed_trip.user_id }}</p>
+    <p><strong>Trip ID:</strong> {{ proposed_trip.trip_id }}</p>
+    <p><strong>Location:</strong> {{ proposed_trip.location }}</p>
+    <p><strong>Date:</strong> {{ proposed_trip.date }}</p>
+
+    <div class="weather-details">
+        <p><strong>Weather:</strong></p>
+        {% for day in proposed_trip.weather %}
+            <p>Average Temperature on {{ day.date }}: {{ day.avg_temp }}°C</p>
+            <p>Condition on {{ day.date }}: {{ day.condition }}</p>
+            <p>Max Temperature on {{ day.date }}: {{ day.max_temp }}°C</p>
+            <p>Min Temperature on {{ day.date }}: {{ day.min_temp }}°C</p>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>

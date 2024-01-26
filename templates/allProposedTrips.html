@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Proposed Trips</title>
+
+   <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f7ff; /* Your preferred background color */
+        padding: 20px;
+    }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+         ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Add space between the proposed trip details */
+    li p {
+        margin-bottom: 10px;
+    }
+
+    /* Style for the "Check Interests" link */
+    a.check-interests {
+        display: inline-block;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        margin-right: 10px;
+    }
+
+    a.check-interests:hover {
+        background-color: #0056b3;
+    }
+
+    /* Style for the update and patch forms */
+    form {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    form input {
+        width: calc(100% - 20px); /* Adjusted width to accommodate padding */
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    form button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        transition: background-color 0.3s;
+    }
+
+    form button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Styles for the delete button */
+    button.deleteButton {
+        background-color: #dc3545;
+        color: #fff;
+        margin-left: 10px;
+    }
+
+    button.deleteButton:hover {
+        background-color: #c82333;
+    }
+    </style>
+</head>
+<body>
+
+ <header>
+        <nav>
+            <a href="{{ url_for('runIndex') }}">Home</a>
+            <a href="{{ url_for('query') }}">Query Trips</a>
+            <a href="{{ url_for('proposed_trips') }}">Propose Trip</a>
+            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Trips</a> <!-- User Proposed Trips Link -->
+            <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
+            <a href="{{ url_for('past_trips') }}">Past Trips</a>
+            <a href="{{ url_for('present_trips') }}">Present Trips</a>
+            <a id="geolocation-link" href="{{ url_for('geolocation') }}">Geolocation</a>
+            <a href="/">Logout</a> <!-- Logout Link -->
+        </nav>
+    </header>
+
+<h2>All Proposed Trips</h2>
+
+{% if proposed_trips %}
+    <ul>
+        {% for trip in proposed_trips %}
+            <li>
+                <p><strong>User ID:</strong> {{ trip.user_id }}</p>
+                <p><strong>Trip ID:</strong> {{ trip.trip_id }}</p>
+                <p><strong>Location:</strong> {{ trip.location }}</p>
+                <p><strong>Date:</strong> {{ trip.date }}</p>
+                <p><strong>Weather:</strong> {{ trip.weather }}</p>
+                 <a class="check-interests" href="{{ url_for('trip_interests', trip_id=trip.trip_id) }}">Check Interests</a>
+
+
+                <!-- Form for updating the trip -->
+                 <form id="updateForm_{{ trip.trip_id }}" action="{{ url_for('update_trip_api', trip_id=trip.trip_id) }}" method="POST">
+                     <label for="locationUpdate_{{ trip.trip_id }}">New Location:</label>
+                     <input type="text" name="location" id="locationUpdate_{{ trip.trip_id }}" required>
+
+                     <label for="dateUpdate_{{ trip.trip_id }}">New Date:</label>
+                     <input type="date" name="date" id="dateUpdate_{{ trip.trip_id }}" required>
+
+                     <button type="submit">Update</button>
+                 </form>
+
+                 <form id="patchForm_{{ trip.trip_id }}" onsubmit="return patchTrip('{{ trip.trip_id }}');">
+                     <label for="locationPatch_{{ trip.trip_id }}">New Location:</label>
+                     <input type="text" name="location" id="locationPatch_{{ trip.trip_id }}" required>
+
+                     <label for="datePatch_{{ trip.trip_id }}">New Date:</label>
+                     <input type="date" name="date" id="datePatch_{{ trip.trip_id }}" required>
+                     <button type="submit">Update (PATCH)</button>
+                 </form>
+                <!-- Delete button -->
+                <button class="deleteButton" onclick="deleteTrip('{{ trip.trip_id }}')">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="no-trips">No proposed trips available.</p>
+{% endif %}
+
+<script>
+    function deleteTrip(tripId) {
+        fetch(`/deleteTrip/${tripId}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                // Handle success, e.g., refresh the page
+                window.location.reload();
+            } else {
+                // Handle error
+                console.error('Error deleting trip:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting trip:', error);
+        });
+    }
+
+    function patchTrip(tripId) {
+        const location = document.getElementById(`locationPatch_${tripId}`).value;
+        const date = document.getElementById(`datePatch_${tripId}`).value;
+
+    // Validate that location and date are not empty
+        if (!location || !date) {
+            console.error('Location and date cannot be empty.');
+            return false;
+        }
+
+    // Prepare data for PATCH request
+        const data = { location, date };
+
+    // Send PATCH request
+        fetch(`/patchTrip/${tripId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+            // Handle success, e.g., refresh the page
+                window.location.reload();
+            } else {
+            // Handle error
+                console.error('Error patching trip:', response.statusText);
+            }
+        })
+        .catch(error => {
+            console.error('Error patching trip:', error);
+        });
+
+        return false;
+    }
+
+</script>
+</body>
+</html>

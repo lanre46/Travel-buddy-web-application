@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+</head>
+<body>
+
+<!-- Add a form to input the recipient's username -->
+<form id="recipientForm">
+    <input type="text" id="recipientInput" placeholder="Recipient's username">
+</form>
+
+<div id="messages"></div>
+<input type="text" id="messageInput" placeholder="Type your message...">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    // Event handler for connection
+    socket.on('connect', function () {
+        console.log('Connected to the server');
+    });
+
+    // Event handler for disconnection
+    socket.on('disconnect', function () {
+        console.log('Disconnected from the server');
+    });
+
+    // Event handler for receiving messages from the server
+    socket.on('message', function (data) {
+        console.log('Message from server:', data);
+        appendMessage(data);
+    });
+
+    // Function to send a message to the server
+    function sendMessage() {
+        var recipientInput = document.getElementById('recipientInput');
+        var recipient = recipientInput.value;
+        var messageInput = document.getElementById('messageInput');
+        var message = messageInput.value;
+        if (recipient.trim() !== '' && message.trim() !== '') {
+            // Emit the message to the server with the recipient's username
+            socket.emit('message_from_client', { recipient: recipient, message: message });
+            messageInput.value = '';
+        }
+    }
+
+    // Function to append a message to the messages div
+    function appendMessage(message) {
+        var messagesDiv = document.getElementById('messages');
+        var messageElement = document.createElement('div');
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+    }
+</script>
+
+</body>
+</html>
