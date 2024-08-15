@@ -351,7 +351,7 @@ def proposed_trips():
             date = request.form['start_date']
 
             # Fetch weather here
-            base_url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{date}/{date}?unitGroup=metric&key=QGUAVPUXXDGPPHV2XEW6DDTGV&contentType=json'
+            base_url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{date}/{date}?unitGroup=metric&key=P26NNPL4J95PEE2W5RCGSLPYR&contentType=json'
             resp = requests.get(base_url)
 
             if resp.status_code == 200:
@@ -549,7 +549,7 @@ def update_trip_api(trip_id):
             trip.date = new_date
 
             # Fetch new weather information based on the updated location and date
-            base_url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{new_location}/{new_date}/{new_date}?unitGroup=metric&key=QGUAVPUXXDGPPHV2XEW6DDTGV&contentType=json'
+            base_url = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{new_location}/{new_date}/{new_date}?unitGroup=metric&key=P26NNPL4J95PEE2W5RCGSLPYR&contentType=json'
             resp = requests.get(base_url)
 
             resp.raise_for_status()  # Raise an HTTPError for bad responses
