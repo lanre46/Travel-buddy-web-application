@@ -9,30 +9,39 @@
      <style>
          body {
         font-family: Arial, sans-serif;
-        background-color: #e6f7ff; /* Your preferred background color */
-        padding: 20px;
+        background-color: white; /* Your preferred background color */
+        background-image: url("../static/images/how-to-plan-trip-guide.jpg");
+        padding: 0px;
+        margin-left: 0px;
+        margin-right: 0px ;
+        margin-top: 0px;
+             background-size: 100% auto; /* 50% width and auto height */
+background-repeat: no-repeat;
+background-position: center -20%;
+
     }
 
-        header {
-            background-color: #333;
-            padding: 10px 0;
-        }
+    header {
+        background-color: lightblue;
+        padding: 10px 0;
+    }
 
-        nav {
-            display: flex;
-            justify-content: space-around;
-            background-color: #000;
-            padding: 10px;
-            border-radius: 0 0 10px 10px;
-        }
+    nav {
+        display: flex;
+        justify-content: space-around;
+        background-color: lightblue;
+        padding: 10px;
+        border-radius: 0 0 10px 10px;
+    }
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+    nav a {
+        color: black;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
 
         nav a:hover {
             background-color: #555;
@@ -41,9 +50,10 @@
         form {
             max-width: 600px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: lightblue;
             padding: 20px;
             border-radius: 5px;
+            margin-top: 120px;
         }
 
         label,
@@ -62,7 +72,7 @@
         }
 
         input[type="submit"] {
-            background-color: #007bff;
+            background-color: green;
             color: #fff;
             padding: 10px;
             border: none;
@@ -70,7 +80,40 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #0062cc;
+            background-color: green;
+        }
+
+        footer {
+        background-color: lightblue;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    footer p {
+        margin: 10px 0;
+        color: black;
+    }
+
+    footer a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+    h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 36px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -92,12 +135,24 @@
     </header>
 
 
+     <h1>Search For trips</h1>
 
    <form action="{{ url_for('query') }}" method="POST"> <!-- route for  form action -->
     <label for="search_location">Search by Location:</label>
     <input type="text" id="search_location" name="search_location" required>
     <input type="submit" value="Search">
 </form>
+
+
+     <footer>
+
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="mailto:support@weatherapp.com">Contact Us</a></p>
+         <p>&copy; 2024 Trip Planner App. All rights reserved.</p>
+    </footer>
+
+
+
+
 
 </body>
 
