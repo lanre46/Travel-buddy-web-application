@@ -791,6 +791,8 @@ def past_trips():
 
         # Fetch all trips with dates earlier than the current date
         today = datetime.today().strftime('%Y-%m-%d')
+
+        #queries the database to fetch all trips that occurred before today.
         past_trips = ProposedTrip.query.filter(ProposedTrip.date < today).all()
 
         return render_template('pastTrips.html', past_trips=past_trips)

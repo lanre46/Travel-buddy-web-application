@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Query Trips</title>
+    <link rel="icon" href="../static/images/travel-agency-logo-trip-logo-design-vector-35036633-removebg-preview.png">
 
      <style>
          body {
@@ -44,7 +45,7 @@ background-position: center -20%;
 
 
         nav a:hover {
-            background-color: #555;
+            background-color: green;
         }
 
         form {
@@ -115,6 +116,16 @@ background-position: center -20%;
             font-size: 36px;
             margin-bottom: 30px;
         }
+
+    .logo {
+            margin-right: 0px; /* Space between logo and links */
+        }
+        .logo img {
+            height: 41px;
+            width: 41px;/* Adjust logo height as needed */
+        }
+
+
     </style>
 </head>
 
@@ -122,20 +133,25 @@ background-position: center -20%;
 
      <header>
         <nav>
-            <a href="{{ url_for('runIndex') }}">Home</a>
-            <a href="{{ url_for('query') }}">Query Trips</a>
-            <a href="{{ url_for('proposed_trips') }}">Propose Trip</a>
-            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Trips</a> <!-- User Proposed Trips Link -->
+            <div class="logo">
+                <a href="{{ url_for('runIndex') }}"> <!-- Updated to the correct route -->
+                    <img src="../static/images/weather.jpg" alt="Logo">
+                </a>
+            </div>
+             <a href="{{ url_for('runIndex') }}">Home</a>
+            <a href="{{ url_for('query') }}">Query Location</a>
+            <a href="{{ url_for('proposed_trips') }}">Propose Location</a>
+            <a href="{{ url_for('user_proposed_trips') }}">User Proposed Location</a> <!-- User Proposed Trips Link -->
             <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
-            <a href="{{ url_for('past_trips') }}">Past Trips</a>
-            <a href="{{ url_for('present_trips') }}">Present Trips</a>
+            <a href="{{ url_for('past_trips') }}">Previous Searches</a>
+            <a href="{{ url_for('present_trips') }}">Upcoming Location</a>
             <a id="geolocation-link" href="{{ url_for('geolocation') }}">Geolocation</a>
             <a href="/">Logout</a> <!-- Logout Link -->
         </nav>
     </header>
 
 
-     <h1>Search For trips</h1>
+     <h1>Search For Location</h1>
 
    <form action="{{ url_for('query') }}" method="POST"> <!-- route for  form action -->
     <label for="search_location">Search by Location:</label>
