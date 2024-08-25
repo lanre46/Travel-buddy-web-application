@@ -30,7 +30,8 @@ class User(db.Model):
 
     def update_profile(self, new_username, new_password):
         self.username = new_username
-        self.password = new_password
+        if new_password:
+            self.password = new_password
         db.session.commit()
 
 class ProposedTrip(db.Model):
@@ -210,6 +211,26 @@ def edit_profile():
         return render_template('error.html', error=error_message)
 
 
+@app.route('/validate_current_password', methods=['POST'])
+def validate_current_password():
+    try:
+        data = request.json
+        current_password = data.get('current_password')
+
+        # Fetch user from session
+        user_id = session.get('user_id')
+        user = User.query.filter_by(user_id=user_id).first()
+
+        if user and user.password == current_password:
+            return "valid", 200
+        else:
+            return "invalid", 401
+
+    except Exception as e:
+        app.logger.error(f"Wrong Current Password: {str(e)}")
+        return "error", 500
+
+
 
 @app.route('/delete_account')
 def delete_account():
@@ -220,6 +241,8 @@ def confirm_delete_account():
     try:
         # Fetch user from session
         user_id = session.get('user_id')
+
+        #applies a filter to the query to find a user whose user_id matches the user_id retrieved from the session.
         user = User.query.filter_by(user_id=user_id).first()
 
         if user:
@@ -827,7 +850,6 @@ def present_trips():
         error_message = f"An unexpected error occurred: {str(e)}"
         app.logger.error(error_message)  # Log the error
         return render_template('error.html', error_message=error_message), 500
-
 
 if __name__ == '__main__':
     with app.app_context():

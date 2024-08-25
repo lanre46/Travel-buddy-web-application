@@ -137,6 +137,142 @@ background-position: center 34%;
             height: 41px;
             width: 41px;/* Adjust logo height as needed */
         }
+
+         @media (max-width: 768px) {
+       html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+    }
+
+    h1 {
+        font-size: 32px;
+
+    }
+
+    p{
+        margin-top: 5px;
+    }
+
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+        margin-top: 0;
+      }
+    }
+
+         @media (max-width: 1024px) {
+       html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+    }
+
+    h1 {
+        font-size: 32px;
+
+    }
+
+    p{
+        font-size: 25px;
+        margin-bottom: 60px;
+    }
+
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+        margin-top: 0;
+      }
+    }
+
+
+        @media (max-width: 431px) {
+    html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+        background-position: center; /* Center the background image */
+        background-attachment: fixed; /* Fix the background image in place */
+    }
+
+    h1 {
+        font-size: 24px; /* Adjust font size for better readability on small screens */
+        text-align: center; /* Center align heading */
+        margin-top: -10px; /* Margin top to provide spacing */
+        margin-bottom: 20px; /* Margin bottom for spacing below heading */
+        /* White background with slight transparency */
+        padding: 20px; /* Padding around text for better readability */
+        border-radius: 5px; /*gin bottom for spacing below heading */
+        background-color: black;
+    }
+
+
+
+    p {
+        font-size: 17.5px; /* Adjust font size for better readability */
+        margin: 0; /* Reset margin to avoid excessive space */
+        padding: 10px; /* Padding for readability */
+         /* White background with slight transparency */
+        border-radius: 5px; /* Optional: rounded corners for the background */
+        text-align: center;
+    }
+
+    nav {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center; /* Center align nav items */
+        padding: 10px; /* Add padding around nav */
+        width: 100%; /* Ensure nav takes full width */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+        display: block; /* Ensure links take full width */
+        text-align: center; /* Center align text */
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+    }
+
+    form{
+        margin-top: 30px;
+    }
+}
+
     </style>
 
 </head>

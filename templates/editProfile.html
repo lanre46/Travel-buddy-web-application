@@ -137,6 +137,194 @@ background-position: center
             height: 41px;
             width: 41px;/* Adjust logo height as needed */
         }
+
+         @media (max-width: 768px) {
+            html, body {
+            height: 100%; /* Ensure html and body cover the full height */
+            margin: 0; /* Remove default margin */
+            overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+             header{
+                 padding: 10px 0; /* Add vertical padding */
+                 width: 100%;
+                 box-sizing: border-box; /* Include padding in width calculation */
+                 position: relative; /* Ensure correct positioning */
+                 overflow: hidden;
+             }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+    }
+
+    h1 {
+        font-size: 32px;
+
+    }
+
+    p{
+        margin-top: 5px;
+    }
+
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+        margin-top: 0;
+      }
+    }
+
+
+
+          @media (max-width: 768px) {
+       html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+    }
+
+    h1 {
+        font-size: 32px;
+
+    }
+
+    p{
+        margin-top: 5px;
+    }
+
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+        margin-top: 0;
+      }
+    }
+
+
+     @media (max-width: 1024px) {
+       html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+    }
+
+    h1 {
+        font-size: 72px;
+        color: white;
+
+    }
+
+    p{
+        font-size: 25px;
+        margin-bottom: 60px;
+    }
+
+
+    nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+        margin-top: 0;
+      }
+    }
+
+
+
+           @media (max-width: 431px) {
+    html, body {
+        height: 100%; /* Ensure html and body cover the full height */
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    body {
+        background-size: cover; /* Ensure background image covers the entire body */
+        background-position: center; /* Center the background image */
+        background-attachment: fixed; /* Fix the background image in place */
+    }
+
+    h1 {
+        font-size: 24px; /* Adjust font size for better readability on small screens */
+        text-align: center; /* Center align heading */
+        margin-top: -10px; /* Margin top to provide spacing */
+        margin-bottom: 20px; /* Margin bottom for spacing below heading */
+        /* White background with slight transparency */
+        padding: 20px; /* Padding around text for better readability */
+        border-radius: 5px; /*gin bottom for spacing below heading */
+        background-color: black;
+    }
+
+
+
+    p {
+        font-size: 17.5px; /* Adjust font size for better readability */
+        margin: 0; /* Reset margin to avoid excessive space */
+        padding: 10px; /* Padding for readability */
+         /* White background with slight transparency */
+        border-radius: 5px; /* Optional: rounded corners for the background */
+        text-align: center;
+    }
+
+    nav {
+        flex-direction: column; /* Stack nav items vertically */
+        align-items: center; /* Center align nav items */
+        padding: 10px; /* Add padding around nav */
+        width: 100%; /* Ensure nav takes full width */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    nav a {
+        padding: 10px;
+        font-size: 14px;
+        display: block; /* Ensure links take full width */
+        text-align: center; /* Center align text */
+    }
+
+    footer {
+        padding: 15px; /* Adjust padding for footer */
+    }
+
+    form{
+        margin-top: 30px;
+    }
+}
+
+
+
     </style>
 </head>
 <body>
@@ -165,15 +353,14 @@ background-position: center
 
 
     <h1>Edit Profile</h1>
-    <form action="/edit_profile" method="post">
-        <label for="new_username">New Username:</label>
-        <input type="text" id="new_username" name="new_username" value="{{ user.username }}"><br>
-        <label for="new_password">New Password:</label>
-        <input type="password" id="new_password" name="new_password"><br>
+     <form id="editProfileForm" action="/edit_profile" method="post">
+    <label for="new_username">New Username:</label>
+    <input type="text" id="new_username" name="new_username" value="{{ user.username }}"><br>
+    <label for="new_password">New Password:</label>
+    <input type="password" id="new_password" name="new_password"><br>
 
-        <input type="submit" value="Save Changes">
-    </form>
-
+    <input type="submit" value="Save Changes">
+</form>
 
   <div class="center-link">
     <a class="delete-account-link" href="{{ url_for('delete_account') }}">Delete My Account</a>
@@ -185,5 +372,48 @@ background-position: center
         <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="mailto:support@weatherapp.com">Contact Us</a></p>
         <p>&copy; 2024 Trip Planner App. All rights reserved.</p>
     </footer>
+
+
+   <script>
+    document.getElementById('editProfileForm').onsubmit = function(event) {
+        event.preventDefault(); // Prevent form submission to handle via JavaScript
+
+        // Show the first confirmation dialog
+        if (!confirm("Do you really want to save the changes?")) {
+            return; // If the user clicks "Cancel", do nothing
+        }
+
+        // Prompt for the current password
+        var currentPassword = prompt("Please enter your current password:");
+
+        if (currentPassword === null || currentPassword === "") {
+            alert("Current password is required.");
+            return; // If the user cancels or leaves it empty, do nothing
+        }
+
+        // Validate the current password with the server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/validate_current_password", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    if (xhr.responseText === "valid") {
+                        // Submit the form if the password is valid
+                        document.getElementById('editProfileForm').submit();
+                    } else {
+                        // Alert the user if the password is incorrect
+                        alert("Incorrect current password. Please try again.");
+                    }
+                } else {
+                    // Handle errors if any
+                    alert("Incorrect current password. Please try again later.");
+                }
+            }
+        };
+        xhr.send(JSON.stringify({ current_password: currentPassword }));
+    };
+</script>
+
 </body>
 </html>
