@@ -1,1 +1,1 @@
-A web applicaation showing you weather details
+The Weather Trip Planner application is designed to help users manage their travel plans by allowing them to submit and query trip proposals, express interest in trips, and view weather forecasts. 
